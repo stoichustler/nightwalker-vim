@@ -1,15 +1,15 @@
-" =============================================================================
-" URL: https://github.com/ghifarit53/tokyonight-vim/
-" Filename: autoload/lightline/colorscheme/tokyonight.vim
-" Author: Ghifari Taqiuddin
-" Email: mghifarit53@gmail.com
-" License: MIT License
-" =============================================================================
+" -----------------------------------------------------------------------------
+" Name:         Night Walker
+" Description:  Based on tokyonight vim colorscheme
+" Author:       stoicHustler (roxhustlin@gmail.com)
+" Website:      https://github.com/stoichustler/nightwalker-vim.git
+" License:      MIT
+" -----------------------------------------------------------------------------
 
 "{{{Palette
 let s:p = {'normal': {}, 'inactive': {}, 'insert': {}, 'replace': {}, 'visual': {}, 'tabline': {}}
 
-let s:style = get(g:, 'tokyonight_style', 'night')
+let s:style = get(g:, 'nightwalker_style', 'night')
 
 if s:style ==# 'night'
 	let s:foreground = [ '#a9b1d6', 250 ]
@@ -137,4 +137,4 @@ let s:p.normal.warning = [ [ s:warningfg, s:warningbg ] ]
 
 "}}}
 
-let g:lightline#colorscheme#tokyonight#palette = lightline#colorscheme#flatten(s:p)
+let g:lightline#colorscheme#nightwalker#palette = lightline#colorscheme#flatten(s:p)
