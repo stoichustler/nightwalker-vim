@@ -29,7 +29,6 @@ let s:configuration.cursor = get(g:, 'nightwalker_cursor', 'auto')
 let s:configuration.current_word = get(g:, 'nightwalker_current_word', get(g:, 'nightwalker_transparent_background', 0) == 0 ? 'grey background' : 'bold')
 
 " Palette
-"
 if s:configuration.style ==# 'night'
   let s:palette = {
         \ 'black':      ['#06080a',   '237',  'DarkGrey'],
@@ -116,7 +115,7 @@ if (has('termguicolors') && &termguicolors) || has('gui_running')  " guifg guibg
     endif
     execute join(hl_string, ' ')
   endfunction
-elseif s:t_Co >= 256  " ctermfg ctermbg cterm
+else  " ctermfg ctermbg cterm
   function! s:HL(group, fg, bg, ...)
     let hl_string = [
           \ 'highlight', a:group,
@@ -134,26 +133,7 @@ elseif s:t_Co >= 256  " ctermfg ctermbg cterm
     endif
     execute join(hl_string, ' ')
   endfunction
-else  " ctermfg ctermbg cterm
-  function! s:HL(group, fg, bg, ...)
-    let hl_string = [
-          \ 'highlight', a:group,
-          \ 'ctermfg=' . a:fg[2],
-          \ 'ctermbg=' . a:bg[2],
-          \ ]
-    if a:0 >= 1
-      if a:1 ==# 'undercurl'
-        call add(hl_string, 'cterm=underline')
-      else
-        call add(hl_string, 'cterm=' . a:1)
-      endif
-    else
-      call add(hl_string, 'cterm=NONE')
-    endif
-    execute join(hl_string, ' ')
-  endfunction
 endif
-"
 
 " Common Highlight Groups
 " UI
@@ -165,6 +145,8 @@ if s:configuration.transparent_background
   call s:HL('Folded', s:palette.grey, s:palette.none)
   call s:HL('SignColumn', s:palette.fg, s:palette.none)
   call s:HL('ToolbarLine', s:palette.fg, s:palette.none)
+  call s:HL('Tabline', s:palette.fg, s:palette.none)
+  call s:HL('TablineFill', s:palette.fg, s:palette.none)
 else
   call s:HL('Normal', s:palette.fg, s:palette.bg0)
   call s:HL('Terminal', s:palette.fg, s:palette.bg0)
@@ -173,6 +155,8 @@ else
   call s:HL('Folded', s:palette.grey, s:palette.bg1)
   call s:HL('SignColumn', s:palette.fg, s:palette.bg1)
   call s:HL('ToolbarLine', s:palette.fg, s:palette.bg2)
+  call s:HL('Tabline', s:palette.fg, s:palette.bg2)
+  call s:HL('TablineFill', s:palette.fg, s:palette.bg2)
 endif
 call s:HL('ColorColumn', s:palette.none, s:palette.bg1)
 call s:HL('Conceal', s:palette.grey, s:palette.none)
@@ -237,7 +221,8 @@ call s:HL('StatusLineTermNC', s:palette.grey, s:palette.bg1)
 call s:HL('TabLine', s:palette.fg, s:palette.bg4)
 call s:HL('TabLineFill', s:palette.grey, s:palette.bg1)
 call s:HL('TabLineSel', s:palette.bg0, s:palette.bg_red)
-call s:HL('VertSplit', s:palette.black, s:palette.none)
+" stoicHustler
+call s:HL('VertSplit', s:palette.bg1, s:palette.bg1)
 call s:HL('Visual', s:palette.none, s:palette.bg3)
 call s:HL('VisualNOS', s:palette.none, s:palette.bg3, 'underline')
 call s:HL('QuickFixLine', s:palette.blue, s:palette.none, 'bold')
@@ -257,8 +242,7 @@ if has('nvim')
   highlight! link LspReferenceRead CocHighlightText
   highlight! link LspReferenceWrite CocHighlightText
 endif
-" 
-"
+
 " Syntax
 if s:configuration.enable_italic
   call s:HL('Type', s:palette.blue, s:palette.none, 'italic')
@@ -328,8 +312,7 @@ else
   call s:HL('BlueItalic', s:palette.blue, s:palette.none)
   call s:HL('OrangeItalic', s:palette.orange, s:palette.none)
 endif
-"
-" 
+
 "
 " Extended File Types
 " Markdown
@@ -375,7 +358,6 @@ highlight! link mkdRule Purple
 highlight! link mkdDelimiter Grey
 highlight! link mkdId Yellow
 "
-"
 " ReStructuredText
 " builtin: https://github.com/marshallward/vim-restructuredtext
 call s:HL('rstStandaloneHyperlink', s:palette.purple, s:palette.none, 'underline')
@@ -390,7 +372,6 @@ highlight! link rstInlineLiteral Green
 highlight! link rstLiteralBlock Green
 highlight! link rstQuotedLiteralBlock Green
 "
-"
 " LaTex
 " builtin: http://www.drchip.org/astronaut/vim/index.html#SYNTAX_TEX
 highlight! link texStatement BlueItalic
@@ -403,7 +384,6 @@ highlight! link texBeginEndName Green
 highlight! link texDocType RedItalic
 highlight! link texDocTypeArgs Orange
 highlight! link texInputFile Green
-"
 "
 " Html
 " builtin: https://notabug.org/jorgesumle/vim-html-syntax
